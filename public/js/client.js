@@ -55,28 +55,6 @@ function writing(e){
 }
 
 /**
- * Función ejecutada al pulsar el nombre de un usuario
- * para enviarle un mensje privado
- */
-function private(e){
-    let user = e.target.innerHTML;
-    socket.emit('private', user);
-}
-
-function enviarPrivate(user){
-    //Se obtiene el mensaje de la caja de texto
-    let input = $('#message');
-
-    //Si el mensaje no está vació se levanta
-    // el evento para añadir un nuevo mensaje privado a la vista
-    if(input.val().length>0)
-        socket.emit('privateChatmsg', input.val(), user);
-
-    //Finalmente se resetea el contenido del input
-    input.val("");
-}
-
-/**
  * Evento para mostrar la ventana de login
  * Se levanta al realizarse una nueva conexión 
  */
@@ -198,22 +176,4 @@ socket.on('notWriting',(username,status)=>{
     $('.nameuser').filter(function() {
         return $(this).text() === username;
     }).next().html(status);
-});
-
-socket.on('private', (user)=>{
-    //Se crea la ventana y se añade al body
-    let popup = $(
-        `<div class="modal-bg">
-        <div id="modal">
-            <span>Private messaje for ${user}</span>
-            <div class="form">
-                <input id="message" name="message" type="text" placeholder="Type a message" required>
-                <button name="submit" id="submit" onclick="enviarPrivate('${user}')">Send</button>
-            </div>
-        </div>
-        </div>`
-    );
-
-    $('body')
-    .append(popup);
 });
