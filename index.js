@@ -1,6 +1,5 @@
 const express = require('express');
 const app = express();
-const port = process.env.PORT || 3000;
 
 const http = require('http');
 const server = http.createServer(app);
@@ -83,5 +82,7 @@ io.on('connection', (socket) => {
   });
 });
 
-app.listen(port);
-server.listen(port);
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT);
+server.listen(3000);
