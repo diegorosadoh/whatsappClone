@@ -39,18 +39,25 @@ function enviar(){
 
 /**
  * Función ejecutada al pulsar cualquier tecla
- * en la caja de texto para enviar un mensaje
+ * en la caja de texto para escribir o enviar un mensaje.
+ * Si el usuario pulsa una tecla se muestra al resto de
+ * usuarios que está escribiendo durante dos segundos. Si no
+ * vuelve a escribir en ese tiempo, el estado vuelve a su origen.
  */
+var wait; //Variable global que guarda el retardo para mostrar que un usuario está escribiendo
 function writing(e){
     //Si la tecla pulsada es 'enter', se envía el mensaje
     if(e.keyCode==13){
         enviar();
     }else{
-        let espera;
+        //Se levanta el evento que muestra que el usuario está escribiendo
         socket.emit('writing');
 
-        clearTimeout(espera);
-        espera = setTimeout(()=>{socket.emit('notWriting')},5000);
+        //Se elimina el Timeout si ya existe
+        clearTimeout(wait);
+
+        //Se crea un nuevo Timeout que dura 2 segundos
+        wait = setTimeout(()=>{socket.emit('notWriting')},2000);
     }
 }
 
