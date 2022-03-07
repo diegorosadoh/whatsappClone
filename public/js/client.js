@@ -1,6 +1,4 @@
-/* var socket = io.connect(); */
-var origin = window.location.origin;
-var socket = io.connect(origin);
+var socket = io.connect();
 
 /**
  * Función ejecutada al loguearse un nuevo usuario

@@ -7,7 +7,6 @@ const { Server } = require("socket.io");
 const io = new Server(server);
 
 const PORT = process.env.PORT || 3000;
-//app.listen(PORT);
 server.listen(PORT);
 
 var users = [];
@@ -62,15 +61,6 @@ io.on('connection', (socket) => {
     socket.emit("enviar",msg,socket.username);
   });
 
-  /* Evento para añadir un nuevo mensaje privado a la vista */
-  socket.on('privateChatmsg', (msg,user)=>{
-    //Se levanta un evento para añadir un nuevo mensaje ajeno para el resto de usuarios
-    //io.to(socketId).emit('nuevomsg',msg,socket.username,socket.color);
-
-    //se levanta un evento para añadir un nuevo mensaje propio para el emisor
-    //socket.emit("enviar",msg,socket.username);
-  });
-
   /* Evento para mostrar que un usuario está escribiendo */
   socket.on('writing',()=>{
     io.sockets.emit('writing',socket.username);
@@ -79,9 +69,5 @@ io.on('connection', (socket) => {
   /* Evento para mostrar el estado original de un usuario cuando deja de escribir */
   socket.on('notWriting',()=>{
     io.sockets.emit('notWriting',socket.username,socket.status);
-  });
-
-  socket.on('private', (user)=>{
-    socket.emit('private', user);
   });
 });
