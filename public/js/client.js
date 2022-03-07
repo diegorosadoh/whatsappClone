@@ -117,7 +117,7 @@ socket.on('updateUsers',(users)=>{
             <img src="./assets/pfpics/${user.pfpic}.jpg" alt="Avatar">
         </div>
         <div class="name">
-            <span class="nameuser" onclick="private(event)">${user.username}</span>
+            <span class="nameuser">${user.username}</span>
             <span class="status">${user.status}</span>
         </div>
         </div>`);
