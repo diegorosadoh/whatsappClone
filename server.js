@@ -7,8 +7,8 @@ const { Server } = require("socket.io");
 const io = new Server(server);
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT);
-//server.listen(3001);
+//app.listen(PORT);
+server.listen(PORT);
 
 var users = [];
 
