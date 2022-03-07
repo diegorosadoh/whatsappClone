@@ -1,4 +1,4 @@
-var socket = io.connect('http://localhost:3000');
+var socket = io();
 
 /**
  * Función ejecutada al loguearse un nuevo usuario
