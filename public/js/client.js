@@ -112,7 +112,16 @@ socket.on('loginPopUp',()=>{
  * Evento para actualizar la vista de los usuarios conectados
  * Se levanta al conectarse o desconectarse un usuario
  */
-socket.on('updateUsers',(users)=>{
+socket.on('updateUsers',(users,newUser,connect)=>{
+    //Se crea el elemento para informar de la nueva conexión/desconexión
+    let info = connect ? "conectado" : "desconectado"
+    let nuevo = $('<div class="message received newuser">')
+    .html(`<b>${newUser}</b> se ha ${info}`)
+    .append(`<span class="metadata"><span class="time"></span></span>`);
+
+    $('.conversation-container')
+    .append(nuevo);
+
     //Se vacía el contenedor de las barras de usuario
     $('.users').html("");
 
@@ -170,7 +179,7 @@ socket.on('writing',(username)=>{
     //Se busca la barra de usuario indicada y se actualiza el estado
     $('.nameuser').filter(function() {
         return $(this).text() === username;
-    }).next().html('writing...');
+    }).next().html('writing...').css('font-weight','bold');
 });
 
 /**
@@ -182,5 +191,5 @@ socket.on('notWriting',(username,status)=>{
     //Se busca la barra de usuario indicada y se actualiza el estado
     $('.nameuser').filter(function() {
         return $(this).text() === username;
-    }).next().html(status);
+    }).next().html(status).css('font-weight','normal');
 });

@@ -40,7 +40,8 @@ io.on('connection', (socket) => {
     });
 
     //Se levanta el evento para actualizar la vista de los usuarios conectados
-    io.sockets.emit('updateUsers',users);
+    if(users.length>0)
+      io.sockets.emit('updateUsers',users,socket.username,connect=true);
   });
 
   /* Evento para desconectar un usuario */
@@ -49,7 +50,8 @@ io.on('connection', (socket) => {
     users = users.filter(user=>user.username!==socket.username);
 
     //Se levanta el evento para actualizar la vista de los usuarios conectados
-    io.sockets.emit('updateUsers',users);
+    if(users.length>0)
+      io.sockets.emit('updateUsers',users,socket.username,connect=false);
   });
 
   /* Evento para añadir un nuevo mensaje a la vista */

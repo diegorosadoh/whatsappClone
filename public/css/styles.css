@@ -292,6 +292,10 @@
     top: 0;
     left: -10px;
   }
+
+  .message.received.newuser{
+    color:#23AA84;
+  }
   
   .message.sent {
     background: #e1ffc7;
