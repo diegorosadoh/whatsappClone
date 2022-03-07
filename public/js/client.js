@@ -1,4 +1,4 @@
-var socket = io.connect();
+var socket = io();
 
 /**
  * Función ejecutada al loguearse un nuevo usuario
