@@ -4,4 +4,4 @@ Aplicación web clon de WhatsApp. La aplicación permite la comunicación vía c
 
 Proyecto realizado con Node.js, Express y Socket.io para la comunicación entre cliente y servidor.
 
-EN PRODUCCIÓN: https://diegorosadoh-onlineshop.netlify.app
+EN PRODUCCIÓN: https://whatsapp-clone-diego-rosado.herokuapp.com
