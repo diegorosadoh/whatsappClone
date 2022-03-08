@@ -230,7 +230,7 @@
     height:100%;
     object-fit: contain;
   }
-
+  
   .metadata {
     display: inline-block;
     float: right;
@@ -465,12 +465,7 @@
 
 /* LOGIN POPUP */
 body{
-  /* background-color:#292B2C;*/
   font-family: 'PT Sans', sans-serif;
- }
- a{
-   outline: 0;
-   text-decoration: none;
  }
  .modal-bg{
    position:fixed;

@@ -38,8 +38,11 @@ function enviar(){
             cache: false,
             dataType : 'json',
             data: formData
-        })
-        .done(socket.emit('chatimg',document.getElementById("sampleFile").files[0].name));
+        });
+
+        //Se establece un timeout de 0,1 segundos para asegurar que el archivo se ha guardado
+        let archivo = document.getElementById("sampleFile").files[0].name;
+        setTimeout(()=>socket.emit('chatimg',archivo),100);
 
         //Finalmente se resetea el contenido del input
         file.val("");
@@ -201,7 +204,11 @@ socket.on('enviar',(msg)=>{
 socket.on('nuevoimg',(img,name,color)=>{
     //Se crea el elemento para el mensaje y se añade al contenedor
     let nuevo = $('<div class="message received">')
-    .html(`<div class="imgdiv"><img src="./assets/images/${img}"/></div>`)
+    .html(`
+        <div class="imgdiv">
+            <img src="./assets/images/${img}"/>
+        </div>
+    `)
     .append(`<span class="metadata"><span class="time"></span></span>`)
     .prepend(`<div class="username" style="color:#${color}">${name}</div>`);;
 

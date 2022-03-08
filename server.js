@@ -30,7 +30,7 @@ io.on('connection', (socket) => {
     sampleFile.mv(uploadPath, function(err){
       if(err)
         return res.status(500).send(err);
-    })
+    });
   });
 
   socket.on('chatimg',(img)=>{
