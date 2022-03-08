@@ -1,4 +1,5 @@
 const express = require('express');
+const fileUpload = require('express-fileupload');
 const app = express();
 
 const http = require('http');
@@ -9,8 +10,9 @@ const io = new Server(server);
 const PORT = process.env.PORT || 3000;
 server.listen(PORT);
 
-var users = [];
+var users = []; //Variable global para los usuarios conectados
 
+app.use(fileUpload());
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/public/index.html');
 });
@@ -19,6 +21,24 @@ app.use(express.static('public'));
 io.on('connection', (socket) => {
   /* Evento para mostrar la ventana de login */
   socket.emit('loginPopUp');
+
+  app.post('/upload', (req,res)=>{
+    sampleFile = req.files.sampleFile;
+    uploadPath = __dirname + '/public/assets/images/' + sampleFile.name;
+  
+    sampleFile.mv(uploadPath, function(err){
+      if(err)
+        return res.status(500).send(err);
+    })
+  });
+
+  socket.on('chatimg',(img)=>{
+    //Se levanta un evento para añadir un nuevo mensaje ajeno para el resto de usuarios
+    socket.broadcast.emit('nuevoimg',img,socket.username,socket.color);
+
+    //se levanta un evento para añadir un nuevo mensaje propio para el emisor
+    socket.emit("enviar-img",img,socket.username);
+  });
   
   /* Evento para añadir un nuevo usuario */
   socket.on('newUser',(username,status,pfpic)=>{

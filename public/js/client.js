@@ -22,6 +22,26 @@ function newUser(){
  * Función ejecutada al enviar un mensaje
  */
 function enviar(){
+    let file = $('.input-img');
+    if(file.val().length>0){
+        var formData = new FormData();
+        formData.append("sampleFile", document.getElementById("sampleFile").files[0]);
+        $.ajax({
+            url: '/upload',
+            type: 'post',
+            processData: false,
+            contentType: false,
+            cache: false,
+            dataType : 'json',
+            data: formData
+        });
+        
+        socket.emit('chatimg',document.getElementById("sampleFile").files[0].name);
+
+        //Finalmente se resetea el contenido del input
+        file.val("");
+    }
+
     //Se obtiene el mensaje de la caja de texto
     let input = $('.input-msg');
 
@@ -31,10 +51,10 @@ function enviar(){
     if(input.val().length>0){
         socket.emit('chatmsg', input.val());
         socket.emit('notWriting');
-    }
 
-    //Finalmente se resetea el contenido del input
-    input.val("");
+        //Finalmente se resetea el contenido del input
+        input.val("");
+    }
 }
 
 /**
@@ -114,9 +134,9 @@ socket.on('loginPopUp',()=>{
  */
 socket.on('updateUsers',(users,newUser,connect)=>{
     //Se crea el elemento para informar de la nueva conexión/desconexión
-    let info = connect ? "conectado" : "desconectado"
+    let info = connect ? "joined" : "left"
     let nuevo = $('<div class="message received newuser">')
-    .html(`<b>${newUser}</b> se ha ${info}`)
+    .html(`<b>${newUser}</b> ${info} the chat`)
     .append(`<span class="metadata"><span class="time"></span></span>`);
 
     $('.conversation-container')
@@ -163,6 +183,29 @@ socket.on('enviar',(msg)=>{
     //Se crea el elemento para el mensaje y se añade al contenedor
     let nuevo = $('<div class="message sent">')
     .html(msg)
+    .append(`<span class="metadata">
+    <span class="time"></span><span class="tick"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" id="msg-dblcheck-ack" x="2063" y="2076"><path d="M15.01 3.316l-.478-.372a.365.365 0 0 0-.51.063L8.666 9.88a.32.32 0 0 1-.484.032l-.358-.325a.32.32 0 0 0-.484.032l-.378.48a.418.418 0 0 0 .036.54l1.32 1.267a.32.32 0 0 0 .484-.034l6.272-8.048a.366.366 0 0 0-.064-.512zm-4.1 0l-.478-.372a.365.365 0 0 0-.51.063L4.566 9.88a.32.32 0 0 1-.484.032L1.892 7.77a.366.366 0 0 0-.516.005l-.423.433a.364.364 0 0 0 .006.514l3.255 3.185a.32.32 0 0 0 .484-.033l6.272-8.048a.365.365 0 0 0-.063-.51z" fill="#4fc3f7"/></svg></span>
+    </span>`);
+
+    $('.conversation-container')
+    .append(nuevo);
+});
+
+socket.on('nuevoimg',(img,name,color)=>{
+    //Se crea el elemento para el mensaje y se añade al contenedor
+    let nuevo = $('<div class="message received">')
+    .html(`<div class="imgdiv"><img src="./assets/images/${img}"/></div>`)
+    .append(`<span class="metadata"><span class="time"></span></span>`)
+    .prepend(`<div class="username" style="color:#${color}">${name}</div>`);;
+
+    $('.conversation-container')
+    .append(nuevo);
+});
+
+socket.on('enviar-img',(img)=>{
+    //Se crea el elemento para el mensaje y se añade al contenedor
+    let nuevo = $('<div class="message sent">')
+    .html(`<div class="imgdiv"><img src="./assets/images/${img}"/></div>`)
     .append(`<span class="metadata">
     <span class="time"></span><span class="tick"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" id="msg-dblcheck-ack" x="2063" y="2076"><path d="M15.01 3.316l-.478-.372a.365.365 0 0 0-.51.063L8.666 9.88a.32.32 0 0 1-.484.032l-.358-.325a.32.32 0 0 0-.484.032l-.378.48a.418.418 0 0 0 .036.54l1.32 1.267a.32.32 0 0 0 .484-.034l6.272-8.048a.366.366 0 0 0-.064-.512zm-4.1 0l-.478-.372a.365.365 0 0 0-.51.063L4.566 9.88a.32.32 0 0 1-.484.032L1.892 7.77a.366.366 0 0 0-.516.005l-.423.433a.364.364 0 0 0 .006.514l3.255 3.185a.32.32 0 0 0 .484-.033l6.272-8.048a.365.365 0 0 0-.063-.51z" fill="#4fc3f7"/></svg></span>
     </span>`);

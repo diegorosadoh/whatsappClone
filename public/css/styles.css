@@ -219,7 +219,18 @@
     height: 0;
     border-style: solid;
   }
-  
+
+  .message .imgdiv{
+    width: 500px;
+    height: 400px;
+  }
+
+  .message img{
+    width:100%;
+    height:100%;
+    object-fit: contain;
+  }
+
   .metadata {
     display: inline-block;
     float: right;
@@ -347,6 +358,10 @@
     outline: none;
     min-width: 50px;
   }
+
+  .conversation-compose .input-img {
+    display: none;
+  }
   
   .conversation-compose .photo {
     flex: 0 0 auto;
@@ -354,6 +369,9 @@
     text-align: center;
     position: relative;
     width: 48px;
+    height: 100%;
+    background-color: white;
+    cursor: pointer;
   }
   
   .conversation-compose .photo:after {
