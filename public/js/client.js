@@ -23,6 +23,10 @@ function newUser(){
  */
 function enviar(){
     let file = $('.input-img');
+
+    //Si el input para archivos no está vació se levanta
+    // el evento para añadir un nuevo mensaje de imagen a la vista
+    // después de realizar la petición AJAX para subir la imagen
     if(file.val().length>0){
         var formData = new FormData();
         formData.append("sampleFile", document.getElementById("sampleFile").files[0]);
@@ -34,9 +38,8 @@ function enviar(){
             cache: false,
             dataType : 'json',
             data: formData
-        });
-        
-        socket.emit('chatimg',document.getElementById("sampleFile").files[0].name);
+        })
+        .done(socket.emit('chatimg',document.getElementById("sampleFile").files[0].name));
 
         //Finalmente se resetea el contenido del input
         file.val("");
@@ -191,6 +194,10 @@ socket.on('enviar',(msg)=>{
     .append(nuevo);
 });
 
+/**
+ * Evento para añadir un nuevo mensaje de imagen ajeno a la vista
+ * Se levanta cuando se recibe un nuevo mensaje de imagen
+ */
 socket.on('nuevoimg',(img,name,color)=>{
     //Se crea el elemento para el mensaje y se añade al contenedor
     let nuevo = $('<div class="message received">')
@@ -202,6 +209,11 @@ socket.on('nuevoimg',(img,name,color)=>{
     .append(nuevo);
 });
 
+
+/**
+ * Evento para añadir un nuevo mensaje de imagen propio a la vista
+ * Se levanta cuando se envía un nuevo mensaje de imagen
+ */
 socket.on('enviar-img',(img)=>{
     //Se crea el elemento para el mensaje y se añade al contenedor
     let nuevo = $('<div class="message sent">')

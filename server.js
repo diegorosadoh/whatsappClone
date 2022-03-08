@@ -22,6 +22,7 @@ io.on('connection', (socket) => {
   /* Evento para mostrar la ventana de login */
   socket.emit('loginPopUp');
 
+  /* Guarda archivos en el servidor cuando recibe peticiones POST */
   app.post('/upload', (req,res)=>{
     sampleFile = req.files.sampleFile;
     uploadPath = __dirname + '/public/assets/images/' + sampleFile.name;
